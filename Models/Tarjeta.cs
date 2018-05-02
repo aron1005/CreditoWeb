@@ -6,11 +6,13 @@ namespace CreditoWeb.Models
 {
     public class Tarjeta
     {
+        //error al colocar un numero erroneo que no es de la targeta
         [Required(ErrorMessage = "El número de tarjeta es necesario.")]
         [CreditCard]
         public string TarjetaNum { get; set; }
         public TipoTarjeta TipoTarjeta { get; set; }
 
+    //para validar y si cumple la condiccion
         public bool Valida { get; set; }
 
         public Tarjeta(string tarjetaNum)
@@ -41,17 +43,19 @@ namespace CreditoWeb.Models
             {
                 var longitud = TarjetaNum.Length;
                 var primerosDos = TarjetaNum.Substring(0, 2);
-
+                //si los primeros dos numero es 34 la targeta va hacer american
                 if (longitud == 15 && (primerosDos.Equals("34") || primerosDos.Equals("37")))
                 {
                     return TipoTarjeta.AMERICANEXPRESS;
                 }
                 if (longitud == 16)
                 {
+                    //si los primeros dos numero es 51 la targeta va hacer mastercard
                     if (primerosDos.Equals("51") || primerosDos.Equals("52") || primerosDos.Equals("53") || primerosDos.Equals("54") || primerosDos.Equals("55"))
                     {
                         return TipoTarjeta.MASTERCARD;
                     }
+                    //si el primer numero es 4 la targeta va hacer visa
                     if (primerosDos.StartsWith("4"))
                     {
                         return TipoTarjeta.VISA;
